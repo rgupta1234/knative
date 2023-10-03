@@ -1,0 +1,21 @@
+specVersion: 0.35.0
+name: f2
+runtime: springboot
+registry: image-registry.openshift-image-registry.svc:5000/kn1
+image: image-registry.openshift-image-registry.svc:5000/kn1/f2:latest
+imageDigest: sha256:e489bff8ea9939b2000a4b4cddc601916137d888ff962300eb74383bebb320b6
+created: 2023-10-02T15:28:39.158006-05:00
+build:
+  builder: pack
+  buildEnvs:
+  - name: BP_NATIVE_IMAGE
+    value: "false"
+  - name: BP_JVM_VERSION
+    value: "17"
+  - name: BP_MAVEN_BUILD_ARGUMENTS
+    value: -Pnative -Dmaven.test.skip=true --no-transfer-progress package
+deploy:
+  namespace: kn1
+  healthEndpoints:
+    liveness: /actuator/health
+    readiness: /actuator/health
